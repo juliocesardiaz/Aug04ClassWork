@@ -12,7 +12,7 @@
         </head>
         <body>
             <div class='container'>
-                <h1>Enter Dimensions and Weight</h1>
+                <h1>Enter Max Mileage and Max Price</h1>
                 <form action='/view_cars'>
                     <div class='form-group'>
                         <label for='max_mileage'>Maximum Mileage:</label>
@@ -50,10 +50,11 @@
           return $searchedCars;
         }
         $matchingCars = searchCar($_GET["max_price"], $_GET["max_mileage"], $allCars);
+        $output = '';
+        $output .= '<h1>Available Cars</h1>' . "\n ";
         if (empty($matchingCars)) {
-          echo "<h2>There ain't no cars here.</h2>";
+          $output .= "<h2>There ain't no cars here.</h2>";
         } else {
-            $output = '';
             foreach ($matchingCars as $result) {
               $output .= "<img src=" .  $result->getImage() . ">" . "\n";
               $output .= "<ul>" . $result->getMake() ."</ul>" . "\n";
@@ -61,8 +62,8 @@
               $output .= "<ul>Price: " . money_format('%i', $result->getPrice()) . "</ul>" . "\n";
               $output .= "<ul>Mileage: " . number_format($result->getMiles()) . "</ul>" . "\n";
             }
-            return $output;
           }
+          return $output;
 
     });
     return $app;

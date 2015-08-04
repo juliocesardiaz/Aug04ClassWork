@@ -41,5 +41,19 @@
         {
             return $this->phone;
         }
+
+        function checkNumber()
+        {
+            $num = str_replace(' ','', $this->phone);
+            $num = str_replace('(','', $num);
+            $num = str_replace(')','', $num);
+            $num = str_replace('-','', $num);
+            $isNumber = is_numeric($num);
+            $isLength = (strlen($num) == 10);
+            if($isNumber && $isLength) {
+                return true;
+            }
+            return false;
+        }
     }
 ?>

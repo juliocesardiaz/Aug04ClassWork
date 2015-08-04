@@ -49,12 +49,16 @@
             $contact_info = new Contact($_GET["contact_name"], $_GET["contact_email"], $_GET["contact_phone"]);
             $job_post = new JobOpening($_GET["job_title"], $_GET["job_description"], $contact_info);
             $output = '';
-            $output .= "<h1>". $job_post->getTitle() . "</h1> \n";
-            $output .= "<h2>" . $job_post->getDescription() . "</h2> \n";
-            $output .= "\n <h2>Contact Information</h2> \n";
-            $output .= "<h3>" . $job_post->getContact()->getName() . "</h3> \n";
-            $output .= "<h3>" . $job_post->getContact()->getEmail() . "</h3> \n";
-            $output .= "<h3>" . $job_post->getContact()->getPhone() . "</h3> \n";
+            if($contact_info->checkNumber()) {
+                $output .= "<h1>". $job_post->getTitle() . "</h1> \n";
+                $output .= "<h2>" . $job_post->getDescription() . "</h2> \n";
+                $output .= "\n <h2>Contact Information</h2> \n";
+                $output .= "<h3>" . $job_post->getContact()->getName() . "</h3> \n";
+                $output .= "<h3>" . $job_post->getContact()->getEmail() . "</h3> \n";
+                $output .= "<h3>" . $job_post->getContact()->getPhone() . "</h3> \n";
+            } else {
+                $output .= "<h1>Invalid Phone Number, Try Again!</h1>";
+            }
             return $output;
     });
     return $app;
