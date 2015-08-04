@@ -1,6 +1,6 @@
 <?php
-    require_once __DIR__.'/../vendor/autoload.php';
-    require_once __DIR__.'/../src/car.php';
+    require_once __DIR__."/../vendor/autoload.php";
+    require_once __DIR__."/../src/car.php";
     $app = new Silex\Application();
     $app->get("/", function() {
         return "
@@ -50,35 +50,19 @@
           return $searchedCars;
         }
         $matchingCars = searchCar($_GET["max_price"], $_GET["max_mileage"], $allCars);
-        return "
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <link rel='stylesheet' href= 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'>
-            <title>Results</title>
-        </head>
-        <body>
-            <div class='container'>
-                <h1>Here are the Cars you searched for</h1>
-                <ul>
-                    <?php
-                        if (empty($matchingCars)) {
-                          echo '<h2>There ain't no cars here.</h2>';
-                        } else {
-                            foreach ($matchingCars as $result) {
-                              echo '<img src=' .  $result->getImage() . '>';
-                              echo '<ul>' . $result->getMake() .'</ul>';
-                              setlocale(LC_MONETARY, 'en_US');
-                              echo '<ul>Price: ' . money_format('%i', $result->getPrice()) . '</ul>';
-                              echo '<ul>Mileage: ' . number_format($result->getMiles()) . '</ul>';
-                            }
-                          }
-                    ?>
-                </ul>
-            </div>
-        </body>
-        </html>
-        ";
+        if (empty($matchingCars)) {
+          echo "<h2>There ain't no cars here.</h2>";
+        } else {
+            $output = '';
+            foreach ($matchingCars as $result) {
+              $output .= "<img src=" .  $result->getImage() . ">" . "\n";
+              $output .= "<ul>" . $result->getMake() ."</ul>" . "\n";
+              setlocale(LC_MONETARY, 'en_US');
+              $output .= "<ul>Price: " . money_format('%i', $result->getPrice()) . "</ul>" . "\n";
+              $output .= "<ul>Mileage: " . number_format($result->getMiles()) . "</ul>" . "\n";
+            }
+            return $output;
+          }
 
     });
     return $app;
